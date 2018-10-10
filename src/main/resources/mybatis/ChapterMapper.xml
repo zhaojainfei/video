@@ -10,5 +10,6 @@
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="ordered" jdbcType="INTEGER" property="ordered" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="delete_status" jdbcType="BIT" property="deleteStatus" />
   </resultMap>
 </mapper>

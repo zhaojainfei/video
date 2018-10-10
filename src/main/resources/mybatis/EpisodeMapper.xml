@@ -14,5 +14,6 @@
     <result column="summary" jdbcType="VARCHAR" property="summary" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="chapter_id" jdbcType="INTEGER" property="chapterId" />
+    <result column="delete_status" jdbcType="BIT" property="deleteStatus" />
   </resultMap>
 </mapper>

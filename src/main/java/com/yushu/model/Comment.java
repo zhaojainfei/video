@@ -55,6 +55,9 @@ public class Comment {
     @Column(name = "video_id")
     private Integer videoId;
 
+    @Column(name = "delete_status")
+    private Boolean deleteStatus;
+
     /**
      * @return id
      */
@@ -225,5 +228,19 @@ public class Comment {
      */
     public void setVideoId(Integer videoId) {
         this.videoId = videoId;
+    }
+
+    /**
+     * @return delete_status
+     */
+    public Boolean getDeleteStatus() {
+        return deleteStatus;
+    }
+
+    /**
+     * @param deleteStatus
+     */
+    public void setDeleteStatus(Boolean deleteStatus) {
+        this.deleteStatus = deleteStatus;
     }
 }

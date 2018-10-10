@@ -15,5 +15,6 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="order_id" jdbcType="INTEGER" property="orderId" />
     <result column="video_id" jdbcType="INTEGER" property="videoId" />
+    <result column="delete_status" jdbcType="BIT" property="deleteStatus" />
   </resultMap>
 </mapper>

@@ -51,6 +51,9 @@ public class Video {
      */
     private Double point;
 
+    @Column(name = "delete_status")
+    private Boolean deleteStatus;
+
     /**
      * @return id
      */
@@ -207,5 +210,19 @@ public class Video {
      */
     public void setPoint(Double point) {
         this.point = point;
+    }
+
+    /**
+     * @return delete_status
+     */
+    public Boolean getDeleteStatus() {
+        return deleteStatus;
+    }
+
+    /**
+     * @param deleteStatus
+     */
+    public void setDeleteStatus(Boolean deleteStatus) {
+        this.deleteStatus = deleteStatus;
     }
 }

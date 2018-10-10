@@ -52,6 +52,9 @@ public class Episode {
     @Column(name = "chapter_id")
     private Integer chapterId;
 
+    @Column(name = "delete_status")
+    private Boolean deleteStatus;
+
     /**
      * @return id
      */
@@ -208,5 +211,19 @@ public class Episode {
      */
     public void setChapterId(Integer chapterId) {
         this.chapterId = chapterId;
+    }
+
+    /**
+     * @return delete_status
+     */
+    public Boolean getDeleteStatus() {
+        return deleteStatus;
+    }
+
+    /**
+     * @param deleteStatus
+     */
+    public void setDeleteStatus(Boolean deleteStatus) {
+        this.deleteStatus = deleteStatus;
     }
 }

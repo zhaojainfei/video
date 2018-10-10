@@ -30,6 +30,9 @@ public class Chapter {
     @Column(name = "create_time")
     private Date createTime;
 
+    @Column(name = "delete_status")
+    private Boolean deleteStatus;
+
     /**
      * @return id
      */
@@ -114,5 +117,19 @@ public class Chapter {
      */
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    /**
+     * @return delete_status
+     */
+    public Boolean getDeleteStatus() {
+        return deleteStatus;
+    }
+
+    /**
+     * @param deleteStatus
+     */
+    public void setDeleteStatus(Boolean deleteStatus) {
+        this.deleteStatus = deleteStatus;
     }
 }

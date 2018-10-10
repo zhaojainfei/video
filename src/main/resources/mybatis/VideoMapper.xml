@@ -14,5 +14,6 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="online" jdbcType="INTEGER" property="online" />
     <result column="point" jdbcType="DOUBLE" property="point" />
+    <result column="delete_status" jdbcType="BIT" property="deleteStatus" />
   </resultMap>
 </mapper>

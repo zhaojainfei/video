@@ -14,5 +14,6 @@
     <result column="sex" jdbcType="TINYINT" property="sex" />
     <result column="city" jdbcType="VARCHAR" property="city" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="delete_status" jdbcType="BIT" property="deleteStatus" />
   </resultMap>
 </mapper>
