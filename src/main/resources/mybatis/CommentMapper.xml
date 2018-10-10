@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yushu.mapper.CommentMapper">
+  <resultMap id="BaseResultMap" type="com.yushu.model.Comment">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="head_img" jdbcType="VARCHAR" property="headImg" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="point" jdbcType="DOUBLE" property="point" />
+    <result column="up" jdbcType="INTEGER" property="up" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="order_id" jdbcType="INTEGER" property="orderId" />
+    <result column="video_id" jdbcType="INTEGER" property="videoId" />
+  </resultMap>
+</mapper>

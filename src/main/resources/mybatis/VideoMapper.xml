@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yushu.mapper.VideoMapper">
+  <resultMap id="BaseResultMap" type="com.yushu.model.Video">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="summary" jdbcType="VARCHAR" property="summary" />
+    <result column="cover_img" jdbcType="VARCHAR" property="coverImg" />
+    <result column="view_num" jdbcType="INTEGER" property="viewNum" />
+    <result column="price" jdbcType="INTEGER" property="price" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="online" jdbcType="INTEGER" property="online" />
+    <result column="point" jdbcType="DOUBLE" property="point" />
+  </resultMap>
+</mapper>
