@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class WeChatConfig {
-    @Value("${wxpay.appid}")
+    @Value("${wxopen.appid}")
     private String appid;
     public void setAppid(String appid) {
         this.appid = appid;
@@ -17,12 +17,21 @@ public class WeChatConfig {
         return appid;
     }
 
-    @Value("${wxpay.appsecret}")
+    @Value("${wxopen.appsecret}")
     private String appsecret;
     public void setAppsecret(String appsecret) {
         this.appsecret = appsecret;
     }
     public String getAppsecret() {
         return appsecret;
+    }
+
+    @Value("${wxopen.redirect_url}")
+    private String redirecturl;
+    public void setRedirecturl(String redirecturl) {
+        this.redirecturl = redirecturl;
+    }
+    public String getRedirecturl() {
+        return redirecturl;
     }
 }

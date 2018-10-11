@@ -1,10 +1,11 @@
 package com.yushu.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
 
 @Table(name = "video_order")
-public class VideoOrder {
+public class VideoOrder implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

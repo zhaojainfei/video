@@ -17,30 +17,31 @@ public class JwtUtils {
 
 
     //发行者
-    public static final String subject = "zhaojianfei";
-    public static final String appsecret = "yushu";
+    public static final String SUBJECT = "zhaojianfei";
+    public static final String APPSECRET = "yushu";
 
     public static String generateJwt(User user){
-        String jwt = Jwts.builder().setSubject(subject)
+        String jwt = Jwts.builder().setSubject(SUBJECT)
                 .claim("id",user.getId())
                 .claim("name",user.getName())
                 .claim("headImg",user.getHeadImg())
-                .setIssuedAt(new Date()).setExpiration(new Date(System.currentTimeMillis() + 1000 * 60))
-                .signWith(SignatureAlgorithm.HS256,appsecret).compact();//最后一下是压缩
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60))
+                .signWith(SignatureAlgorithm.HS256,APPSECRET).compact();
         return jwt;
     }
 
     public static Claims decodeJwt(String jwt){
         try{
-            Claims claims = Jwts.parser().setSigningKey(appsecret).parseClaimsJws(jwt).getBody();
-//        Claims claims = Jwts.parser().setSigningKey(appsecret).parseClaimsJws(jwt).getHeader();
-//        Claims claims = Jwts.parser().setSigningKey(appsecret).parseClaimsJws(jwt).getSignature();
+            Claims claims = Jwts.parser().setSigningKey(APPSECRET).parseClaimsJws(jwt).getBody();
+//        Claims claims = Jwts.parser().setSigningKey(APPSECRET).parseClaimsJws(jwt).getHeader();
+//        Claims claims = Jwts.parser().setSigningKey(APPSECRET).parseClaimsJws(jwt).getSignature();
+            Integer id = (Integer) claims.get("id");
+            String name = (String) claims.get("name");
+            String headImg = (String) claims.get("headImg");
             return claims;
         }catch (Exception ex){
             return null;
         }
-
-
-
     }
 }
