@@ -1,10 +1,9 @@
 package com.yushu.model;
 
-import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
 
-public class Chapter implements Serializable{
+public class Chapter {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

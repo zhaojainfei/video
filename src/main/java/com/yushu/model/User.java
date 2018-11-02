@@ -1,10 +1,9 @@
 package com.yushu.model;
 
-import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
 
-public class User implements Serializable {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -14,16 +13,11 @@ public class User implements Serializable {
      */
     private String openid;
 
-    /**
-     * 昵称
-     */
-    private String name;
+    @Column(name = "nick_name")
+    private String nickName;
 
-    /**
-     * 头像
-     */
-    @Column(name = "head_img")
-    private String headImg;
+    @Column(name = "headimg_url")
+    private String headimgUrl;
 
     /**
      * 手机号
@@ -53,6 +47,10 @@ public class User implements Serializable {
 
     @Column(name = "delete_status")
     private Boolean deleteStatus;
+
+    private String country;
+
+    private String province;
 
     /**
      * @return id
@@ -87,39 +85,31 @@ public class User implements Serializable {
     }
 
     /**
-     * 获取昵称
-     *
-     * @return name - 昵称
+     * @return nick_name
      */
-    public String getName() {
-        return name;
+    public String getNickName() {
+        return nickName;
     }
 
     /**
-     * 设置昵称
-     *
-     * @param name 昵称
+     * @param nickName
      */
-    public void setName(String name) {
-        this.name = name;
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
     }
 
     /**
-     * 获取头像
-     *
-     * @return head_img - 头像
+     * @return headimg_url
      */
-    public String getHeadImg() {
-        return headImg;
+    public String getHeadimgUrl() {
+        return headimgUrl;
     }
 
     /**
-     * 设置头像
-     *
-     * @param headImg 头像
+     * @param headimgUrl
      */
-    public void setHeadImg(String headImg) {
-        this.headImg = headImg;
+    public void setHeadimgUrl(String headimgUrl) {
+        this.headimgUrl = headimgUrl;
     }
 
     /**
@@ -224,5 +214,33 @@ public class User implements Serializable {
      */
     public void setDeleteStatus(Boolean deleteStatus) {
         this.deleteStatus = deleteStatus;
+    }
+
+    /**
+     * @return country
+     */
+    public String getCountry() {
+        return country;
+    }
+
+    /**
+     * @param country
+     */
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    /**
+     * @return province
+     */
+    public String getProvince() {
+        return province;
+    }
+
+    /**
+     * @param province
+     */
+    public void setProvince(String province) {
+        this.province = province;
     }
 }

@@ -22,9 +22,9 @@ public class JwtUtils {
 
     public static String generateJwt(User user){
         String jwt = Jwts.builder().setSubject(SUBJECT)
-                .claim("id",user.getId())
-                .claim("name",user.getName())
-                .claim("headImg",user.getHeadImg())
+                .claim("openId",user.getOpenid())
+                .claim("nickName",user.getNickName())
+                .claim("headImg",user.getHeadimgUrl())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60))
                 .signWith(SignatureAlgorithm.HS256,APPSECRET).compact();

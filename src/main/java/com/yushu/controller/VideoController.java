@@ -4,7 +4,9 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.yushu.model.Video;
 import com.yushu.service.VideoService;
+import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,6 +21,18 @@ import java.util.Map;
 public class VideoController {
     @Autowired
     VideoService videoService;
+
+    @RequestMapping(value = "index")
+    public String index(Model model, HttpServletRequest request){
+        String openId = (String)request.getAttribute("openId");
+        String nickName = (String)request.getAttribute("nickName");
+        String headImg = (String)request.getAttribute("headImg");
+
+        model.addAttribute("openId",openId);
+        model.addAttribute("nickName",nickName);
+        model.addAttribute("headImg",headImg);
+        return "video/index";
+    }
 
     @RequestMapping(value = "getList",method = RequestMethod.GET)
     public Object getList(){
