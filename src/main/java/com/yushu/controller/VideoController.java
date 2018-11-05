@@ -6,17 +6,15 @@ import com.yushu.model.Video;
 import com.yushu.service.VideoService;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@RestController
+@Controller
 @RequestMapping("/api/video/video")
 public class VideoController {
     @Autowired
@@ -35,6 +33,7 @@ public class VideoController {
     }
 
     @RequestMapping(value = "getList",method = RequestMethod.GET)
+    @ResponseBody
     public Object getList(){
         Video video = new Video();
         video.setDeleteStatus(false);
@@ -46,6 +45,7 @@ public class VideoController {
     }
 
     @RequestMapping(value = "getPageList",method = RequestMethod.GET)
+    @ResponseBody
     public Object getPageList(@RequestParam(name = "pageNum",required = true) Integer pageNum, @RequestParam(name = "pageSize",required = true)Integer pageSize){
         PageHelper.startPage(pageNum,pageSize);
         Video video = new Video();
@@ -56,6 +56,7 @@ public class VideoController {
     }
 
     @RequestMapping(value = "getById",method = RequestMethod.GET)
+    @ResponseBody
     public Object getById(Integer id){
         Video video = new Video();
         video.setId(id);

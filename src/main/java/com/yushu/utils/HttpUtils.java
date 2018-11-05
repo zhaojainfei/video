@@ -1,5 +1,7 @@
 package com.yushu.utils;
 
+import com.alibaba.fastjson.JSONObject;
+import org.apache.http.HttpEntity;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -9,6 +11,10 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -53,37 +59,45 @@ public class HttpUtils {
     }
 
     public static String sendPost(String url, String data) {
-        String response = null;
+        CloseableHttpClient httpClient =  HttpClients.createDefault();
+        //超时设置
 
-        CloseableHttpClient httpClient = HttpClients.createDefault();
-        CloseableHttpResponse httpResponse = null;
-        try {
-            HttpPost httppost = new HttpPost(url);
-            RequestConfig requestConfig = RequestConfig.custom().setConnectionRequestTimeout(5000).setRedirectsEnabled(true).build();
-            httppost.setConfig(requestConfig);
-            httppost.addHeader("Content-Type", "application/json; chartset=UTF-8");
+        RequestConfig requestConfig =  RequestConfig.custom().setConnectTimeout(4000) //连接超时
+                .setConnectionRequestTimeout(4000)//请求超时
+                .setSocketTimeout(4000)
+                .setRedirectsEnabled(true)  //允许自动重定向
+                .build();
 
-            StringEntity entity = new StringEntity(data, ContentType.create("text/json", "UTF-8"));
-            httppost.setEntity(entity);
 
-            httpResponse = httpClient.execute(httppost);
-            int statusCode = httpResponse.getStatusLine().getStatusCode();
-            if(statusCode == 200) {
-                response = EntityUtils.toString(httpResponse.getEntity());
-            }
-        }catch (Exception ex){
-            ex.printStackTrace();
+        HttpPost httpPost  = new HttpPost(url);
+        httpPost.setConfig(requestConfig);
+        httpPost.addHeader("Content-Type","text/html; chartset=UTF-8");
+
+        if(data != null && data instanceof  String){ //使用字符串传参
+            StringEntity stringEntity = new StringEntity(data,"UTF-8");
+            httpPost.setEntity(stringEntity);
         }
-        finally {
-            // 关闭连接
-            try {
+
+        try{
+
+            CloseableHttpResponse httpResponse = httpClient.execute(httpPost);
+            HttpEntity httpEntity = httpResponse.getEntity();
+            if(httpResponse.getStatusLine().getStatusCode() == 200){
+                String result = EntityUtils.toString(httpEntity);
+                return result;
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            try{
                 httpClient.close();
-                httpResponse.close();
-            } catch (IOException e) {
+            }catch (Exception e){
                 e.printStackTrace();
             }
         }
-        return response;
+
+        return null;
     }
 
     public static String sendPost2(String url, String param) {
@@ -135,5 +149,15 @@ public class HttpUtils {
         }
         System.out.println("post推送结果："+result);
         return result;
+    }
+
+    /**
+     * 初始化RestTemplate
+     */
+    private static RestTemplate restTemplate;
+    static {
+        SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
+        requestFactory.setConnectTimeout(10000);
+        restTemplate = new RestTemplate(requestFactory);
     }
 }

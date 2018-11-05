@@ -80,6 +80,7 @@ public class WeChatController {
                     user.setDeleteStatus(false);
                     user.setCreateTime(new Date());
                     userService.add(user);
+                    user_temp = user;
                 }catch(UnsupportedEncodingException ex){
 
                 }
