@@ -102,7 +102,7 @@ public class WXPayUtil {
         Iterator<Map.Entry<String, String>> iterator = set.iterator();
         while (iterator.hasNext()){
             Map.Entry<String,String> entry = iterator.next();
-            if(!StringUtils.isEmpty(entry.getKey())){
+            if(!StringUtils.isEmpty(entry.getKey()) && !entry.getKey().equals("sign")){
                 sb.append(entry.getKey()+"="+entry.getValue()+"&");
             }
         }

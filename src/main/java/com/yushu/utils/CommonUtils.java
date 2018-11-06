@@ -1,7 +1,7 @@
 package com.yushu.utils;
 
 import java.security.MessageDigest;
-import java.util.UUID;
+import java.util.*;
 
 public class CommonUtils {
     public static String generateUUID(){
@@ -22,5 +22,16 @@ public class CommonUtils {
         }
         return null;
 
+    }
+
+    public static SortedMap<String,String> mapToSortedMap(Map<String,String> map){
+        SortedMap sortedMap = new TreeMap();
+        Iterator<String> iterator = map.keySet().iterator();
+        while (iterator.hasNext()){
+            String key = iterator.next();
+            String value = map.get(key);
+            sortedMap.put(key,value);
+        }
+        return sortedMap;
     }
 }

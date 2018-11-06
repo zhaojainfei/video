@@ -1,5 +1,11 @@
 package com.yushu.controller;
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.yushu.contants.Contants;
 import com.yushu.model.User;
 import com.yushu.model.Video;
@@ -18,10 +24,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
-import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import javax.servlet.http.HttpServletResponse;
+import java.io.OutputStream;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/video/videoOrder")
@@ -46,7 +51,7 @@ public class VideoOrderController {
      */
 
     @RequestMapping(value = "generateOrder",method = RequestMethod.GET)
-    public void generateOrder(Integer userId, Integer videoId, HttpServletRequest request)throws Exception{
+    public void generateOrder(Integer userId, Integer videoId, HttpServletRequest request, HttpServletResponse response)throws Exception{
         Video video =  new Video();
         video.setId(videoId);
         video.setDeleteStatus(false);
@@ -70,10 +75,29 @@ public class VideoOrderController {
         videoOrder.setDeleteStatus(false);
         videoOrder.setIp(IpUtils.getIpAddr(request));
         videoOrder.setOutTradeNo(CommonUtils.generateUUID());
-        this.unifiedOrder(videoOrder);
         videoOrderService.add(videoOrder);
+        String payUrl = this.unifiedOrder(videoOrder);
+
+        try{
+            // 生成支付链接二维码
+            Map<EncodeHintType,Object> map = new HashMap<>();
+            map.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
+            map.put(EncodeHintType.CHARACTER_SET,"UTF-8");
+            BitMatrix bitMatrix = new MultiFormatWriter().encode(payUrl, BarcodeFormat.QR_CODE,400,400,map);
+            // 用流的方式写入到输出流中
+            MatrixToImageWriter.writeToStream(bitMatrix,"png",response.getOutputStream());
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
+    /**
+     * 统一下单
+     * @param videoOrder
+     * @return
+     * @throws Exception
+     */
     private String unifiedOrder(VideoOrder videoOrder) throws Exception{
         SortedMap map = new TreeMap();
         // 公众账号ID
@@ -97,7 +121,6 @@ public class VideoOrderController {
         // 签名
         map.put("sign", WXPayUtil.createSign(map,this.wxpayKey));
         String payXml = WXPayUtil.mapToXml(map);
-        System.out.println(payXml);
         // https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=20_1 验证签名
         String payResult = HttpUtils.sendPost(Contants.UNIFIED_ORDER_URL,payXml);
         System.out.println(payResult);

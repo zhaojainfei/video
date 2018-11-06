@@ -24,8 +24,8 @@ import java.net.URL;
 import java.net.URLConnection;
 
 public class HttpUtils {
-    public static String doGet(String url){
-        url= url.replaceAll(" ", "%20");
+    public static String doGet(String url) {
+        url = url.replaceAll(" ", "%20");
         CloseableHttpClient httpClient = HttpClients.createDefault();
         HttpGet httpGet = new HttpGet(url);
 
@@ -40,7 +40,7 @@ public class HttpUtils {
             response = httpClient.execute(httpGet);
             // 状态码
             int statusCode = response.getStatusLine().getStatusCode();
-            if(statusCode == 200){
+            if (statusCode == 200) {
                 //获得响应实体
                 return EntityUtils.toString(response.getEntity());
             }
@@ -59,44 +59,35 @@ public class HttpUtils {
     }
 
     public static String sendPost(String url, String data) {
-        CloseableHttpClient httpClient =  HttpClients.createDefault();
-        //超时设置
-
-        RequestConfig requestConfig =  RequestConfig.custom().setConnectTimeout(4000) //连接超时
-                .setConnectionRequestTimeout(4000)//请求超时
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(4000)
+                .setConnectionRequestTimeout(4000)
                 .setSocketTimeout(4000)
-                .setRedirectsEnabled(true)  //允许自动重定向
+                .setRedirectsEnabled(true)
                 .build();
-
-
-        HttpPost httpPost  = new HttpPost(url);
+        HttpPost httpPost = new HttpPost(url);
         httpPost.setConfig(requestConfig);
-        httpPost.addHeader("Content-Type","text/html; chartset=UTF-8");
-
-        if(data != null && data instanceof  String){ //使用字符串传参
-            StringEntity stringEntity = new StringEntity(data,"UTF-8");
+        httpPost.addHeader("Content-Type", "text/html; chartset=UTF-8");
+        if (data != null && data instanceof String) {
+            StringEntity stringEntity = new StringEntity(data, "UTF-8");
             httpPost.setEntity(stringEntity);
         }
-
-        try{
-
+        try {
             CloseableHttpResponse httpResponse = httpClient.execute(httpPost);
             HttpEntity httpEntity = httpResponse.getEntity();
-            if(httpResponse.getStatusLine().getStatusCode() == 200){
+            if (httpResponse.getStatusLine().getStatusCode() == 200) {
                 String result = EntityUtils.toString(httpEntity);
                 return result;
             }
-
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-        }finally {
-            try{
+        } finally {
+            try {
                 httpClient.close();
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-
         return null;
     }
 
@@ -111,7 +102,7 @@ public class HttpUtils {
             // 设置通用的请求属性
             conn.setRequestProperty("accept", "*/*");
             conn.setRequestProperty("connection", "Keep-Alive");
-            conn.setRequestProperty("user-agent","Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
+            conn.setRequestProperty("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
             // 发送POST请求必须设置如下两行
             conn.setDoOutput(true);
             conn.setDoInput(true);
@@ -130,24 +121,23 @@ public class HttpUtils {
                 result += line;
             }
         } catch (Exception e) {
-            System.out.println("发送 POST 请求出现异常！"+e);
+            System.out.println("发送 POST 请求出现异常！" + e);
             e.printStackTrace();
         }
         //使用finally块来关闭输出流、输入流
-        finally{
-            try{
-                if(out!=null){
+        finally {
+            try {
+                if (out != null) {
                     out.close();
                 }
-                if(in!=null){
+                if (in != null) {
                     in.close();
                 }
-            }
-            catch(IOException ex){
+            } catch (IOException ex) {
                 ex.printStackTrace();
             }
         }
-        System.out.println("post推送结果："+result);
+        System.out.println("post推送结果：" + result);
         return result;
     }
 
@@ -155,6 +145,7 @@ public class HttpUtils {
      * 初始化RestTemplate
      */
     private static RestTemplate restTemplate;
+
     static {
         SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
         requestFactory.setConnectTimeout(10000);
