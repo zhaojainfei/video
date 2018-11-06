@@ -19,6 +19,8 @@ import com.yushu.utils.IpUtils;
 import com.yushu.utils.WXPayUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,11 +48,13 @@ public class VideoOrderController {
     private String wxpayRedirecturl;
     @Value("${wxpay.appid}")
     private String wxpayAppid;
+
     /**
      * 生成订单
      */
-
     @RequestMapping(value = "generateOrder",method = RequestMethod.GET)
+    // 事物的传播行为:
+    @Transactional(propagation = Propagation.REQUIRED)
     public void generateOrder(Integer userId, Integer videoId, HttpServletRequest request, HttpServletResponse response)throws Exception{
         Video video =  new Video();
         video.setId(videoId);
@@ -121,7 +125,6 @@ public class VideoOrderController {
         // 签名
         map.put("sign", WXPayUtil.createSign(map,this.wxpayKey));
         String payXml = WXPayUtil.mapToXml(map);
-        // https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=20_1 验证签名
         String payResult = HttpUtils.sendPost(Contants.UNIFIED_ORDER_URL,payXml);
         System.out.println(payResult);
         Map<String,String> map_unifiedResult = WXPayUtil.xmlToMap(payResult);

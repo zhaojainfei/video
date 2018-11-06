@@ -121,7 +121,7 @@ public class WeChatController {
         System.out.println(sb.toString());
         SortedMap sortedMap = CommonUtils.mapToSortedMap(map);
 
-        // 验证一遍签名(用他回传的参数做值计算出来的签名)
+        // 验证回传参数签名（不包括sign）
         if(WXPayUtil.isCorrectSign(sortedMap,this.wxpayKey)){
             if(sortedMap.get("result_code").equals("SUCCESS")){
                 VideoOrder videoOrder = new VideoOrder();
